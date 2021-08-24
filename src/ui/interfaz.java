@@ -3,6 +3,8 @@ package ui; // Paquete de pertenencia
 // Importación de elementos para el chat.
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 // Clase de la interfaz de usuario.
 public class interfaz {
@@ -17,6 +19,21 @@ public class interfaz {
     JPanel anadirBotonEnviar = null;
     JPanel anadirCampoTexto = null;
     JPanel anadirVerTexto = null;
+
+    // Escuchador para el botón de enviar
+    ActionListener escuchador = new ActionListener(){
+        
+        @Override
+        public void actionPerformed(ActionEvent event){
+            
+            String mensaje = "1. "+ escribirTexto.getText() + "\n";
+
+            System.out.print(mensaje);
+            verTexto.append(mensaje);;
+            escribirTexto.setText("");
+        }
+
+    };
 
     // Método que abre los objetos de la interfaz.
     public interfaz(){
@@ -37,8 +54,12 @@ public class interfaz {
         anadirBotonEnviar.add(botonEnviar);
         anadirBotonEnviar.setLayout(new GridLayout(1,2));
         ventanaChat.add(anadirBotonEnviar, BorderLayout.SOUTH);
-        
-        //botonEnviar.addActionListener(this);
+
+        botonEnviar.addActionListener(escuchador);
+
+        // Prueba
+        //prueba.setBounds(10, 10, 50, 50);
+
 
         // Ver texto
         verTexto = new JTextArea(20, 34);
@@ -53,12 +74,6 @@ public class interfaz {
         ventanaChat.setVisible(true);
         //ventanaChat.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
-    }
-
-    /*class pulsar implements ActionListener {
-        public void actionPerformed(ActionEvent ae){
-    
-        }
-    }*/
+    }    
 
 }
