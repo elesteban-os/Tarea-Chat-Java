@@ -4,17 +4,14 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
 import java.io.IOException;
 import product.*;
 public class threadServidor extends Thread {
 
-    private Socket socket;
+    private final Socket socket;
     private ArrayList<threadServidor> listaHilos;
-    private PrintWriter output;
-    private BufferedReader input;
-    private DataInputStream sendMessageDIS;
+    private DataInputStream input;
+    private DataOutputStream output;
 
     public threadServidor(Socket socket, ArrayList<threadServidor> hilos){
         this.socket = socket;
@@ -22,20 +19,9 @@ public class threadServidor extends Thread {
     }
 
     private void init() throws IOException {
-        input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        output = new PrintWriter(socket.getOutputStream(), true);
-        sendMessageDIS = new DataInputStream(socket.getInputStream());
-    }
+        input = new DataInputStream(socket.getInputStream());
+        output = new DataOutputStream(socket.getOutputStream());
 
-    private void notificarTodosClientes(String msg) {
-        if (msg.equalsIgnoreCase("EXIT")) {
-            this.output.println("EXIT");
-        } else {
-            for (threadServidor socket : listaHilos) {
-                if (!socket.equals(this))
-                socket.output.println("[Desde otro usuario]: " + msg);
-            }
-        }
     }
 
     private void kill() throws IOException {
@@ -44,36 +30,31 @@ public class threadServidor extends Thread {
         socket.close();
     }
 
-
     @Override
     public void run() {
         try {
             init();
             while (true) {
-                //String msg = input.readLine();
-                //if (msg.equalsIgnoreCase("EXIT")) {
-                //    break;
-                //}
-                //Logica
-                //System.out.println("log: "+msg); // Imprime texto desde cliente
-                //this.output.println("uyyy" + msg); // Manda el texto hacia cliente
-                //notificarTodosClientes(msg); // Notifica a los demás clientes conectador y reinicia
-
-                String msgBuffer= this.sendMessageDIS.readUTF();
+                String msgBuffer = this.input.readUTF();
 
                 Product prduct = bufferConverter(msgBuffer);
 
                 prduct.setTotal(calculaTotal(prduct.getPrecio(),prduct.getImpuesto(),prduct.getPeso()));
                 System.out.println("SEVIDOR: ");
                 System.out.println("MSG: "+prduct.getString());
-
-                //sendMessageDIS.close();
+                    
+                for (threadServidor socketA : listaHilos){
+                    socketA.output.writeUTF("uaujdisudisud");
+                }
+                
+            
             }
             //kill();
         } catch (IOException e) {
             System.out.println("<Se desconectó el usuario>");
         }
     }
+
 //procesa el mensaje a una lista y transforma a un objeto producto
 public Product bufferConverter (String msg){
     

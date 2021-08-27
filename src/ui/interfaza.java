@@ -111,6 +111,7 @@ public class interfaza {
         window.setLayout(null);
         window.setResizable(false);
         window.setVisible(true);
+        
     try{
         this.cliente = new Cliente();
         this.cliente.start("localhost", 2121);
