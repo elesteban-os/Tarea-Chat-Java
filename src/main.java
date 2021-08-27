@@ -1,11 +1,10 @@
-import client.cliente;
+import ui.interfaza;
 
 public class main {
 
     public static void main(String[] args){
         
-        //servidor server = new servidor();
-        cliente usuario = new cliente();
+        interfaza usuario = new interfaza();
         
         System.out.print("comit?");
         
