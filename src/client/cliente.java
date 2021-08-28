@@ -4,6 +4,10 @@ import java.net.Socket;
 import java.io.*;
 
 import product.*;
+import client.threadCliente;
+
+
+
 public class Cliente {
 
     private Socket socket;
@@ -41,3 +45,4 @@ public class Cliente {
     }
 }
 
+//

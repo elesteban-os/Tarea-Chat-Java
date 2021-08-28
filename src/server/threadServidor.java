@@ -5,7 +5,8 @@ import java.net.Socket;
 import java.util.*;
 
 import java.io.IOException;
-import product.*;
+import product.Product;
+
 public class threadServidor extends Thread {
 
     private final Socket socket;
@@ -42,9 +43,11 @@ public class threadServidor extends Thread {
                 prduct.setTotal(calculaTotal(prduct.getPrecio(),prduct.getImpuesto(),prduct.getPeso()));
                 System.out.println("SEVIDOR: ");
                 System.out.println("MSG: "+prduct.getString());
+
+
                     
                 for (threadServidor socketA : listaHilos){
-                    socketA.output.writeUTF("uaujdisudisud");
+                    socketA.output.writeInt(prduct.getTotal());;
                 }
                 
             
@@ -54,7 +57,7 @@ public class threadServidor extends Thread {
             System.out.println("<Se desconectó el usuario>");
         }
     }
-
+//
 //procesa el mensaje a una lista y transforma a un objeto producto
 public Product bufferConverter (String msg){
     

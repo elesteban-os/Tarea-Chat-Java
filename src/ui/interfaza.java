@@ -69,7 +69,7 @@ public class interfaza {
             } catch (NumberFormatException nfe){
                 System.out.println("Debe ser entero");
             }
-
+//
             precio.setText("");
             peso.setText("");
             impuestos.setText("");
