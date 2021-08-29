@@ -11,7 +11,7 @@ public class Product{
     private int precio;
     private int impuesto;
     private int peso;
-    private int total;
+    private double total = 0.0;
 
     /**
      * Método constructor para inicializar variables.
@@ -66,7 +66,7 @@ public int getPeso(){
      *
      *  @since 1.0
      */
-public int getTotal(){
+public double getTotal(){
     return this.total;
 }
 /**
@@ -74,7 +74,7 @@ public int getTotal(){
      *
      *  @since 1.0
      */
-public void setTotal(int totalA){
+public void setTotal(double totalA){
     this.total = totalA;
 }
 /**

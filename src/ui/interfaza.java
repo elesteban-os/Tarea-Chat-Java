@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import product.Product;
+import server.botonMonto;
 
 import client.Cliente;
 
@@ -15,6 +16,7 @@ public class interfaza {
 
     private JFrame window = new JFrame("Chat");
     private JButton calcular = new JButton("Calcular");
+    private JButton recibir = new JButton("Recibir");
     
     private JTextField precio = new JTextField();
     private JTextField peso = new JTextField();
@@ -24,12 +26,17 @@ public class interfaza {
     private JLabel lPeso = new JLabel("Peso");
     private JLabel lImpuestos = new JLabel("Impuestos");
 
+    private JLabel lTotal = new JLabel("Resultado");
+    private JLabel lResultado = new JLabel("Resultado:");
+
     private String precioS = "e";
     private String pesoS = "" ;
     private String impuestosS;
 
     private Cliente cliente;
-    private Product product;
+    private Product product = new Product();;
+
+    
    
 
     // Escuchador para el botón de enviar
@@ -39,45 +46,64 @@ public class interfaza {
         
         @Override
         public void actionPerformed(ActionEvent event){
-            try {
+            if (precio.getText().isBlank() || 
+                peso.getText().isBlank() ||
+                impuestos.getText().isBlank()){
 
-                 product = new Product();
-
-                if(precio.getText().isBlank()) {
-                    System.out.println("Ingrese un precio");
-                }else{
-                    product.setPrecio(Integer.parseInt(precio.getText()));
+                    lTotal.setText("¡Llena todos los espacios!");     
                 }
+
+
+            else{
+                try {
+                    String precioo = precio.getText();
+                    String pesoo = peso.getText();
+                    String impuestoos = impuestos.getText();
+
+                    precio.setText("");
+                    peso.setText("");
+                    impuestos.setText("");
+
+                    product.setPrecio(Integer.parseInt(precioo));
+                    product.setPeso(Integer.parseInt(pesoo));
+                    product.setImpuesto(Integer.parseInt(impuestoos));
+
+                    System.out.println("desde interfaza" +product.getString());
+
+                    cliente.sendMessage(product);
+
+                   
+                    
+                    try {
+                        lTotal.setText(cliente.recibePrecio());
+                    } catch (Exception e) {
+                    
+                    }
+                    
                 
-                if(peso.getText().isBlank()) {
-                    System.out.println("Ingrese un peso");
-                }else{
-                    product.setPeso(Integer.parseInt(peso.getText()));
-                }
+                    precioS = null;
+                    pesoS = null;
+                    impuestosS = null;
+                        
 
-                if(impuestos.getText().isBlank()) {
-                    System.out.println("Ingrese un impuesto");
-                }else{
-                    product.setImpuesto(Integer.parseInt(impuestos.getText()));
-                }
-
-                
-                System.out.println(product.getString());
-
-                cliente.sendMessage(product);
-
-            } catch (NumberFormatException nfe){
-                System.out.println("Debe ser entero");
+                    } catch (NumberFormatException nfe){
+                        lTotal.setText("¡Deben ser números enteros!");
+                    }
             }
-//
-            precio.setText("");
-            peso.setText("");
-            impuestos.setText("");
+                 
+        }
 
-            precioS = null;
-            pesoS = null;
-            impuestosS = null;
+    };
+
+    ActionListener escuchador2 = new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent event){
+            try {
+                lTotal.setText(cliente.recibePrecio());
+            } catch (Exception e) {
             
+            }            
         }
 
     };
@@ -87,6 +113,8 @@ public class interfaza {
         // Botón
         calcular.setBounds(50, 300, 100, 30);
         calcular.addActionListener(escuchador);
+        recibir.setBounds(180, 210, 100, 30);
+        recibir.addActionListener(escuchador2);
 
         // Cuadros de texto
         precio.setBounds(50, 100, 100, 30);
@@ -97,8 +125,11 @@ public class interfaza {
         lPrecio.setBounds(50, 80, 50, 10);
         lPeso.setBounds(50, 155, 50, 10);
         lImpuestos.setBounds(50, 230, 120, 10);
-    
+        lTotal.setBounds(180, 185, 190, 10);    
+        lResultado.setBounds(180, 165, 190, 10); 
 
+        window.add(recibir);
+        window.add(lResultado);
         window.add(precio);
         window.add(peso);
         window.add(impuestos);
@@ -106,6 +137,7 @@ public class interfaza {
         window.add(lPrecio);
         window.add(lPeso);
         window.add(lImpuestos);
+        window.add(lTotal);
 
         window.setSize(400, 400);
         window.setLayout(null);

@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 public class threadCliente implements Runnable {
 
     private final DataInputStream reaad;
+    private String total;
 
     public threadCliente(InputStream socketE) throws IOException {
         reaad = new DataInputStream(socketE);
@@ -21,17 +22,13 @@ public class threadCliente implements Runnable {
             while (true){
             String mensaje = reaad.readUTF();
             System.out.println(mensaje); 
+            this.total = mensaje;
             } 
             
         } catch (Exception e) {
             //TODO: handle exception
         }
-            
-        
-        
 
     }
-
-    
 
 }

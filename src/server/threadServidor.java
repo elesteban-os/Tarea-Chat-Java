@@ -44,10 +44,10 @@ public class threadServidor extends Thread {
                 System.out.println("SEVIDOR: ");
                 System.out.println("MSG: "+prduct.getString());
 
-
+                String total = String.valueOf(prduct.getTotal());
                     
                 for (threadServidor socketA : listaHilos){
-                    socketA.output.writeInt(prduct.getTotal());;
+                    socketA.output.writeUTF(total);;
                 }
                 
             
@@ -77,9 +77,9 @@ public Product bufferConverter (String msg){
 }
 
 
-public int calculaTotal (int precioA, int imuestoA, int PesoA){
+public double calculaTotal (int precioA, int impuestoA, int PesoA){
     //Calcula Precio
-    int total = 0;
+    double total = ((precioA * impuestoA) / 100) + (PesoA * 0.15);
     return total;
 }
 
