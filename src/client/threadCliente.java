@@ -6,14 +6,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import ui.interfaza;
+
 
 public class threadCliente implements Runnable {
 
     private final DataInputStream reaad;
     private String total;
+    private interfaza interfazA;
 
-    public threadCliente(InputStream socketE) throws IOException {
+    public threadCliente(InputStream socketE, interfaza interfaz) throws IOException {
         reaad = new DataInputStream(socketE);
+        this.interfazA = interfaz;
+
     }
 
     @Override
@@ -21,6 +26,7 @@ public class threadCliente implements Runnable {
         try {
             while (true){
             String mensaje = reaad.readUTF();
+            this.interfazA.cambiarTotal(mensaje);
             System.out.println(mensaje); 
             this.total = mensaje;
             } 

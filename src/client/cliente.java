@@ -19,6 +19,11 @@ public class Cliente {
     private DataOutputStream sendMessageDOS;
     private DataInputStream receiveMessageDIS;
     threadCliente clienteCorrer;
+    private interfaza interfaz;
+
+    public Cliente(interfaza interfaaz){
+        this.interfaz = interfaaz;
+    }
 
     public void init(String ip, int port) throws IOException {
         socket = new Socket(ip, port);
@@ -32,8 +37,8 @@ public class Cliente {
 
     public void start(String ip, int port) throws IOException {
         init(ip, port);
-        //clienteCorrer = new threadCliente(socket.getInputStream());
-        //new Thread(clienteCorrer).start();
+        clienteCorrer = new threadCliente(socket.getInputStream(), this.interfaz);
+        new Thread(clienteCorrer).start();
         System.out.println("aa");
 
     }

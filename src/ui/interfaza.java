@@ -16,7 +16,6 @@ public class interfaza {
 
     private JFrame window = new JFrame("Chat");
     private JButton calcular = new JButton("Calcular");
-    private JButton recibir = new JButton("Recibir");
     
     private JTextField precio = new JTextField();
     private JTextField peso = new JTextField();
@@ -71,15 +70,6 @@ public class interfaza {
                     System.out.println("desde interfaza" +product.getString());
 
                     cliente.sendMessage(product);
-
-                   
-                    
-                    try {
-                        lTotal.setText(cliente.recibePrecio());
-                    } catch (Exception e) {
-                    
-                    }
-                    
                 
                     precioS = null;
                     pesoS = null;
@@ -95,26 +85,12 @@ public class interfaza {
 
     };
 
-    ActionListener escuchador2 = new ActionListener(){
-
-        @Override
-        public void actionPerformed(ActionEvent event){
-            try {
-                lTotal.setText(cliente.recibePrecio());
-            } catch (Exception e) {
-            
-            }            
-        }
-
-    };
-
     public interfaza(){
+
 
         // Botón
         calcular.setBounds(50, 300, 100, 30);
         calcular.addActionListener(escuchador);
-        recibir.setBounds(180, 210, 100, 30);
-        recibir.addActionListener(escuchador2);
 
         // Cuadros de texto
         precio.setBounds(50, 100, 100, 30);
@@ -128,7 +104,6 @@ public class interfaza {
         lTotal.setBounds(180, 185, 190, 10);    
         lResultado.setBounds(180, 165, 190, 10); 
 
-        window.add(recibir);
         window.add(lResultado);
         window.add(precio);
         window.add(peso);
@@ -144,12 +119,6 @@ public class interfaza {
         window.setResizable(false);
         window.setVisible(true);
         
-    try{
-        this.cliente = new Cliente();
-        this.cliente.start("localhost", 2121);
-    }catch(IOException ioe){
-        System.out.println(ioe.getMessage());
-    }
     }
 
     public String returnPrecio() {
@@ -163,7 +132,14 @@ public class interfaza {
     public String returnImpuestos() {
         return this.impuestosS;
     }
-        
+
+    public void cambiarTotal(String mensaje) {
+        this.lTotal.setText(mensaje);
+    }
+    
+    public void setCliente(Cliente client){
+        this.cliente = client;
+    }
            
 }
 
