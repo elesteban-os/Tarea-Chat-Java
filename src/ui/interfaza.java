@@ -2,14 +2,16 @@ package ui; // Paquete de pertenencia
 
 // Importación de elementos para el chat.
 import javax.swing.*;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import product.Product;
-import server.botonMonto;
-
 import client.Cliente;
+
+/**
+ * Esta clase realiza e implementa todos los elementos de una interfaz.
+ * @author: Kevin Esteban Chinchilla Rodríguez.
+ * @version: 1.0
+ */
 
 // Clase de la interfaz de usuario.
 public class interfaza {
@@ -28,21 +30,12 @@ public class interfaza {
     private JLabel lTotal = new JLabel("Resultado");
     private JLabel lResultado = new JLabel("Resultado:");
 
-    private String precioS = "e";
-    private String pesoS = "" ;
-    private String impuestosS;
-
     private Cliente cliente;
     private Product product = new Product();;
 
     
-   
-
     // Escuchador para el botón de enviar
     ActionListener escuchador = new ActionListener(){
-
-        
-        
         @Override
         public void actionPerformed(ActionEvent event){
             if (precio.getText().isBlank() || 
@@ -51,8 +44,6 @@ public class interfaza {
 
                     lTotal.setText("¡Llena todos los espacios!");     
                 }
-
-
             else{
                 try {
                     String precioo = precio.getText();
@@ -70,12 +61,7 @@ public class interfaza {
                     System.out.println("desde interfaza" +product.getString());
 
                     cliente.sendMessage(product);
-                
-                    precioS = null;
-                    pesoS = null;
-                    impuestosS = null;
-                        
-
+        
                     } catch (NumberFormatException nfe){
                         lTotal.setText("¡Deben ser números enteros!");
                     }
@@ -85,8 +71,11 @@ public class interfaza {
 
     };
 
-    public interfaza(){
+    /**
+     * Constructor que implementa todas las características de la interfaz.
+     */
 
+    public interfaza(){
 
         // Botón
         calcular.setBounds(50, 300, 100, 30);
@@ -118,24 +107,23 @@ public class interfaza {
         window.setLayout(null);
         window.setResizable(false);
         window.setVisible(true);
+        window.setDefaultCloseOperation(window.EXIT_ON_CLOSE);
         
     }
 
-    public String returnPrecio() {
-        return this.precioS;
-    }
-
-    public String returnPeso() {
-        return this.pesoS;
-    }
-
-    public String returnImpuestos() {
-        return this.impuestosS;
-    }
+    /**
+     * Función que cambia el texto que tiene el label dónde se muestra el resultado total.
+     * @param mensaje Recibe el mensaje de lo que se quiere indicar en el label.
+     */
 
     public void cambiarTotal(String mensaje) {
         this.lTotal.setText(mensaje);
     }
+
+    /**
+     * Función que identifica la interfaz gráfica que tiene el cliente.
+     * @param client Recibe el cliente.
+     */
     
     public void setCliente(Cliente client){
         this.cliente = client;
