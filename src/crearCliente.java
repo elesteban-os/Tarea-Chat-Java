@@ -1,5 +1,7 @@
 import ui.interfaza;
 import client.Cliente;
+import server.Server;
+
 import java.io.IOException;
 
 /** 
@@ -12,7 +14,7 @@ import java.io.IOException;
 public class crearCliente {
 
     /**
-     * Función que inicializa el server y el cliente y se implementan entre ellos.
+     * Función que inicializa la interfaaz y el cliente y se implementan entre ellos.
      * @param args
      */
 
